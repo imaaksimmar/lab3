@@ -20,7 +20,7 @@ class TriangleMatrix {
     public:
         Iterator(TriangleMatrix<T, Container>* m, size_t r)
         : matrix(m), row(r) {
-            rowStartIndex = row * (row+1)/2; 
+            rowStartIndex = row*(row+1)/2; 
         }
 
         T& operator[](size_t column) {
@@ -33,7 +33,6 @@ class TriangleMatrix {
             return (*matrix->data)[rowStartIndex + column];
         }
     };
-
     
     class ConstIterator {
     private:
@@ -44,7 +43,7 @@ class TriangleMatrix {
     public:
         ConstIterator(const TriangleMatrix<T, Container>* m, size_t r)
         : matrix(m), row(r) {
-            rowStartIndex = row * (row + 1) / 2;
+            rowStartIndex = row*(row+1)/2; 
         }
 
     
@@ -124,6 +123,33 @@ class TriangleMatrix {
         return maxNorm;
 
     }
+
+    TriangleMatrix<T, Container>& operator=(const TriangleMatrix<T, Container>& other) 
+    {
+        if(this == &other) { return *this; }
+
+        delete data;
+        size = other.size;
+        data = new Container<T>(*(other.data));
+
+        return *this;
+    }
+
+    TriangleMatrix<T, Container> operator+(const TriangleMatrix<T, Container>& other) const
+    {
+        TriangleMatrix<T, Container> result(*this);
+        result.Add(other);
+        return result;
+    }
+
+    TriangleMatrix<T, Container> operator*(T scalar) const
+    {
+        TriangleMatrix<T, Container> result(*this);
+        result.ScalarMultiply(scalar);
+        return result;
+    }
+
+    //map-reduce надо добавить 
 
 
 };
