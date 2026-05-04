@@ -25,10 +25,10 @@ class TriangleMatrix {
 
         T& operator[](size_t column) {
             if(row>=matrix->GetSize() || column>=matrix->GetSize()) {
-                throw IndexOutOfRange();
+                throw IndexOutOfRange(column, matrix->GetSize());
             }
             if(row<column) {
-                throw InvalidArgument(); 
+                throw InvalidArgument(row, column); 
             }
             return (*matrix->data)[rowStartIndex + column];
         }
@@ -49,7 +49,7 @@ class TriangleMatrix {
     
         T operator[](size_t column) const {
             if(row>=matrix->GetSize() || column>=matrix->GetSize()) {
-                throw IndexOutOfRange();
+                throw IndexOutOfRange(row, matrix->GetSize());
             }
             if(row<column) {
                 return T(); 
@@ -88,7 +88,7 @@ class TriangleMatrix {
 
     TriangleMatrix<T, Container>* Add(const TriangleMatrix<T, Container>& other) 
     {
-        if(this->size != other.size) { throw SizeMismatch(); }
+        if(this->size != other.size) { throw SizeMismatch(this->size, other.size); }
 
         for(size_t i=0; i<this->size; i++) {
             for(size_t j=0; j<=i; j++) {
@@ -148,8 +148,42 @@ class TriangleMatrix {
         result.ScalarMultiply(scalar);
         return result;
     }
+    
+    template <typename U>
+    TriangleMatrix<U, Container> Map(U (*mapper)(T)) const 
+    {
+        TriangleMatrix<U, Container> result(this->size);
+        for(size_t i=0; i<this->size; i++) {
+            for(size_t j=0; j<=i; j++) {
+                result[i][j] = mapper((*this)[i][j]);
+            }
+        }
+        return result;
+    }
 
-    //map-reduce надо добавить 
+    TriangleMatrix<T, Container> Where(bool (*where)(T)) const 
+    {
+        TriangleMatrix<T, Container> result(this->size);
+        for(size_t i=0; i<this->size; i++) {
+            for(size_t j=0; j<=i; j++) {
+                if(where((*this)[i][j])) {
+                    result[i][j] = (*this)[i][j];
+                }
+            }
+        }
+        return result;
+    }
 
+    template <typename U>
+    U Reduce(U (*reducer)(U, T), U initialValue) const
+    {
+        U result = initialValue;
+        for(size_t i=0; i<this->size; i++) {
+            for(size_t j=0; j<=i; j++) {
+                result = reducer(result, (*this)[i][j]);
+            }
+        }
+        return result;
+    }
 
 };
