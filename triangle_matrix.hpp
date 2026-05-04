@@ -20,7 +20,7 @@ class TriangleMatrix {
     public:
         Iterator(TriangleMatrix<T, Container>* m, size_t r)
         : matrix(m), row(r) {
-            rowStartIndex = row * (row + 1) / 2; 
+            rowStartIndex = row * (row+1)/2; 
         }
 
         T& operator[](size_t column) {
@@ -84,6 +84,46 @@ class TriangleMatrix {
     : size(other.size), data(new Container<T>(*other.data)) {}
 
     ~TriangleMatrix() { delete data; }
+
+    size_t GetSize() const { return size; }
+
+    TriangleMatrix<T, Container>* Add(const TriangleMatrix<T, Container>& other) 
+    {
+        if(this->size != other.size) { throw SizeMismatch(); }
+
+        for(size_t i=0; i<this->size; i++) {
+            for(size_t j=0; j<=i; j++) {
+                (*this)[i][j] = (*this)[i][j] + other[i][j];
+            }
+        }
+        return this;
+    }
+    
+    TriangleMatrix<T, Container>* ScalarMultiply(T scalar) 
+    {
+        for(size_t i=0; i<this->size; i++) {
+            for(size_t j=0; j<=i; j++) {
+                (*this)[i][j] = (*this)[i][j] * scalar;
+            }
+        }
+        return this;
+
+    }
+
+    T Norm() const 
+    {
+        T maxNorm = T();
+
+        for(size_t i=0; i<this->size; i++) {
+            T current = T();
+            for(size_t j=0; j<=i; j++) {
+                current += std::abs((*this)[i][j]);
+            }
+            if(current>maxNorm) { maxNorm = current; }
+        }
+        return maxNorm;
+
+    }
 
 
 };
