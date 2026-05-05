@@ -84,3 +84,19 @@ TEST(TriangleMatrixMath, Norm) {
     EXPECT_EQ(m_zeros.Norm(), 0);
 }
 
+TEST(TriangleMatrixOperators, AssignOperator) {
+    TriangleMatrix<int, ArraySequence> m1(2);
+    m1[0][0] = 100;
+    TriangleMatrix<int, ArraySequence> m2;
+    
+    m2 = m1; 
+    EXPECT_EQ(m2.GetSize(), 2u);
+    EXPECT_EQ(m2[0][0], 100);
+    
+    m1[0][0] = 200;
+    EXPECT_EQ(m2[0][0], 100);
+
+    m2.operator=(m2);
+    EXPECT_EQ(m2.GetSize(), 2u);
+    EXPECT_EQ(m2[0][0], 100); 
+}
