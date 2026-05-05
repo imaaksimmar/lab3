@@ -126,7 +126,7 @@ TEST(TriangleMatrixOperators, AddOperator) {
 TEST(TriangleMatrixOperators, MultiplyOperator) {
     TriangleMatrix<int, ArraySequence> m(2); 
     m[0][0] = 4;
-    m[1][0] = -2;
+    m[1][0] = -2; 
     m[1][1] = 5;
     
     TriangleMatrix<int, ArraySequence> res = m*3;
