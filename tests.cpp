@@ -178,3 +178,23 @@ TEST(TriangleMatrixFunctional, ReduceFunction) {
     int product = m.Reduce(MultiplyReducer, 1);
     EXPECT_EQ(product, 24);
 }
+
+bool IsTwoDevided(int x) { return x%2==0; }
+TEST(TriangleMatrixFunctional, WhereFunction) {
+    TriangleMatrix<int, ArraySequence> m(2);
+    m[0][0] = 1; 
+    m[1][0] = 2; 
+    m[1][1] = 4; 
+
+    TriangleMatrix<int, ArraySequence> res = m.Where(IsTwoDevided);
+
+    EXPECT_EQ(res.GetSize(), 2u);
+
+    EXPECT_EQ(res[0][0], 0); 
+    EXPECT_EQ(res[1][0], 2); 
+    EXPECT_EQ(res[1][1], 4); 
+
+    EXPECT_EQ(m[0][0], 1);
+    EXPECT_EQ(m[1][0], 2);
+    EXPECT_EQ(m[1][1], 4);
+}
