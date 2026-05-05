@@ -162,3 +162,19 @@ TEST(TriangleMatrixFunctional, MapFunction) {
     EXPECT_EQ(m[1][0], 2);
     EXPECT_EQ(m[1][1], 3);
 }
+
+int SumReducer(int acc, int val) { return acc+val; }
+int MultiplyReducer(int acc, int val) { return acc*val; }
+
+TEST(TriangleMatrixFunctional, ReduceFunction) {
+    TriangleMatrix<int, ArraySequence> m(2);
+    m[0][0] = 2; 
+    m[1][0] = 3; 
+    m[1][1] = 4;
+
+    int sum = m.Reduce(SumReducer, 0);
+    EXPECT_EQ(sum, 9);
+
+    int product = m.Reduce(MultiplyReducer, 1);
+    EXPECT_EQ(product, 24);
+}
