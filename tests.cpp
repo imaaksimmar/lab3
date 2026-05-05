@@ -141,3 +141,24 @@ TEST(TriangleMatrixOperators, MultiplyOperator) {
     EXPECT_EQ(m[1][0], -2);
     EXPECT_EQ(m[1][1], 5);
 }
+
+int MultiplyByTen(int x) { return x*10; }
+
+TEST(TriangleMatrixFunctional, MapFunction) {
+    TriangleMatrix<int, ArraySequence> m(2);
+    m[0][0] = 1; 
+    m[1][0] = 2; 
+    m[1][1] = 3;
+
+    TriangleMatrix<int, ArraySequence> res = m.Map(MultiplyByTen);
+
+    EXPECT_EQ(res.GetSize(), 2u);
+
+    EXPECT_EQ(res[0][0], 10);
+    EXPECT_EQ(res[1][0], 20);
+    EXPECT_EQ(res[1][1], 30);
+
+    EXPECT_EQ(m[0][0], 1);
+    EXPECT_EQ(m[1][0], 2);
+    EXPECT_EQ(m[1][1], 3);
+}
