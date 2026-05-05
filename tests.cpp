@@ -100,3 +100,44 @@ TEST(TriangleMatrixOperators, AssignOperator) {
     EXPECT_EQ(m2.GetSize(), 2u);
     EXPECT_EQ(m2[0][0], 100); 
 }
+
+TEST(TriangleMatrixOperators, AddOperator) {
+    TriangleMatrix<int, ArraySequence> m1(2); 
+    m1[0][0] = 5; 
+    m1[1][0] = 1; 
+    m1[1][1] = 2;
+
+    TriangleMatrix<int, ArraySequence> m2(2); 
+    m2[0][0] = 10; 
+    m2[1][0] = 3; 
+    m2[1][1] = 4;
+    
+    TriangleMatrix<int, ArraySequence> res = m1 + m2;
+    EXPECT_EQ(res.GetSize(), 2u);
+
+    EXPECT_EQ(res[0][0], 15); 
+    EXPECT_EQ(res[1][0], 4);  
+    EXPECT_EQ(res[1][1], 6);  
+    
+    EXPECT_EQ(m1[0][0], 5);
+    EXPECT_EQ(m2[0][0], 10);
+}
+
+TEST(TriangleMatrixOperators, MultiplyOperator) {
+    TriangleMatrix<int, ArraySequence> m(2); 
+    m[0][0] = 4;
+    m[1][0] = -2;
+    m[1][1] = 5;
+    
+    TriangleMatrix<int, ArraySequence> res = m*3;
+    
+    EXPECT_EQ(res.GetSize(), 2u);
+
+    EXPECT_EQ(res[0][0], 12);
+    EXPECT_EQ(res[1][0], -6); 
+    EXPECT_EQ(res[1][1], 15); 
+    
+    EXPECT_EQ(m[0][0], 4);
+    EXPECT_EQ(m[1][0], -2);
+    EXPECT_EQ(m[1][1], 5);
+}
