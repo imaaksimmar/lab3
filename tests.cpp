@@ -40,7 +40,6 @@ TEST(TriangleMatrix, GetSize) {
     EXPECT_EQ(m100.GetSize(), 100u);
 }
 
-
 TEST(TriangleMatrixMath, Add) {
     TriangleMatrix<int, ArraySequence> m1(2);
     m1[0][0] = 1; 
@@ -71,4 +70,17 @@ TEST(TriangleMatrixMath, ScalarMultiply) {
     EXPECT_DOUBLE_EQ(m[1][1], -4.0);
 }
 
+TEST(TriangleMatrixMath, Norm) {
+    TriangleMatrix<int, ArraySequence> m(2);
+    m[0][0] = -5; 
+    m[1][0] = 2; 
+    m[1][1] = 2;
+    EXPECT_EQ(m.Norm(), 5); 
+
+    TriangleMatrix<int, ArraySequence> m_empty;
+    EXPECT_EQ(m_empty.Norm(), 0);
+
+    TriangleMatrix<int, ArraySequence> m_zeros(2);
+    EXPECT_EQ(m_zeros.Norm(), 0);
+}
 
