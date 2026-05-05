@@ -29,4 +29,15 @@ TEST(TriangleMatrixTest, Constructors) {
     EXPECT_DOUBLE_EQ(m3[1][1], 3.0); 
 }
 
+TEST(TriangleMatrix, GetSize) {
+    TriangleMatrix<int, ArraySequence> m0;
+    EXPECT_EQ(m0.GetSize(), 0u);
+
+    TriangleMatrix<int, ArraySequence> m5(5);
+    EXPECT_EQ(m5.GetSize(), 5u);
+
+    TriangleMatrix<int, ArraySequence> m100(100);
+    EXPECT_EQ(m100.GetSize(), 100u);
+}
+
 
