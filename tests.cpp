@@ -143,7 +143,6 @@ TEST(TriangleMatrixOperators, MultiplyOperator) {
 }
 
 int MultiplyByTen(int x) { return x*10; }
-
 TEST(TriangleMatrixFunctional, MapFunction) {
     TriangleMatrix<int, ArraySequence> m(2);
     m[0][0] = 1; 
@@ -165,7 +164,6 @@ TEST(TriangleMatrixFunctional, MapFunction) {
 
 int SumReducer(int acc, int val) { return acc+val; }
 int MultiplyReducer(int acc, int val) { return acc*val; }
-
 TEST(TriangleMatrixFunctional, ReduceFunction) {
     TriangleMatrix<int, ArraySequence> m(2);
     m[0][0] = 2; 
@@ -197,4 +195,71 @@ TEST(TriangleMatrixFunctional, WhereFunction) {
     EXPECT_EQ(m[0][0], 1);
     EXPECT_EQ(m[1][0], 2);
     EXPECT_EQ(m[1][1], 4);
+}
+
+TEST(TriangleMatrixExceptions, IndexOutOfRangeTest) {
+    TriangleMatrix<int, ArraySequence> m(3);
+
+    EXPECT_THROW(m[3][0], IndexOutOfRange);
+    EXPECT_THROW(m[0][3], IndexOutOfRange);
+
+    try 
+    { 
+        m[5][0];
+        FAIL() << "Expected IndexOutOfRange exception was not thrown!";
+    } 
+    catch(const IndexOutOfRange& e) 
+    {
+        std::string expectedMessage = "IndexOutOfRange: requested index 5, BUT actual size is 3";
+        EXPECT_EQ(std::string(e.what()), expectedMessage);
+    } 
+    catch(...) 
+    {
+        FAIL() << "Expected IndexOutOfRange, but another exception was thrown:()";
+    }
+}
+
+TEST(TriangleMatrixExceptions, InvalidArgumentTest) {
+    TriangleMatrix<int, ArraySequence> m(3);
+
+    EXPECT_THROW(m[0][1], InvalidArgument);
+    EXPECT_THROW(m[1][2], InvalidArgument);
+
+    try 
+    {
+        m[0][2]; 
+        FAIL() << "Expected InvalidArgument exception was not thrown!";
+    } 
+    catch(const InvalidArgument& e) 
+    {
+        std::string expected_msg = "InvalidArgument: access to upper triangle is forbidden (Row: 0, Column: 2)";
+        EXPECT_EQ(std::string(e.what()), expected_msg);
+    } 
+    catch(...) 
+    {
+        FAIL() << "Expected InvalidArgument, but another exception was thrown!";
+    }
+}
+
+TEST(TriangleMatrixExceptions, SizeMismatchTest) {
+    TriangleMatrix<int, ArraySequence> m1(2);
+    TriangleMatrix<int, ArraySequence> m2(4);
+
+    EXPECT_THROW(m1.Add(m2), SizeMismatch);
+    EXPECT_THROW(m1+m2, SizeMismatch);
+
+    try 
+    {
+        m1.Add(m2);
+        FAIL() << "Expected SizeMismatch exception was not thrown!";
+    } 
+    catch(const SizeMismatch& e) 
+    {
+        std::string expected_message = "SizeMismatch: sizes do not match (2 vs 4)";
+        EXPECT_EQ(std::string(e.what()), expected_message);
+    } 
+    catch (...) 
+    {
+        FAIL() << "Expected SizeMismatch, but another exception was thrown!";
+    }
 }
