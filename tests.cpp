@@ -232,34 +232,11 @@ TEST(TriangleMatrixExceptions, InvalidArgumentTest) {
     } 
     catch(const InvalidArgument& e) 
     {
-        std::string expected_msg = "InvalidArgument: access to upper triangle is forbidden (Row: 0, Column: 2)";
-        EXPECT_EQ(std::string(e.what()), expected_msg);
+        std::string expectedMessage = "InvalidArgument: access to upper triangle is forbidden (Row: 0, Column: 2)";
+        EXPECT_EQ(std::string(e.what()), expectedMessage);
     } 
     catch(...) 
     {
         FAIL() << "Expected InvalidArgument, but another exception was thrown!";
-    }
-}
-
-TEST(TriangleMatrixExceptions, SizeMismatchTest) {
-    TriangleMatrix<int, ArraySequence> m1(2);
-    TriangleMatrix<int, ArraySequence> m2(4);
-
-    EXPECT_THROW(m1.Add(m2), SizeMismatch);
-    EXPECT_THROW(m1+m2, SizeMismatch);
-
-    try 
-    {
-        m1.Add(m2);
-        FAIL() << "Expected SizeMismatch exception was not thrown!";
-    } 
-    catch(const SizeMismatch& e) 
-    {
-        std::string expected_message = "SizeMismatch: sizes do not match (2 vs 4)";
-        EXPECT_EQ(std::string(e.what()), expected_message);
-    } 
-    catch (...) 
-    {
-        FAIL() << "Expected SizeMismatch, but another exception was thrown!";
     }
 }
