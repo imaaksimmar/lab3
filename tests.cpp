@@ -240,3 +240,26 @@ TEST(TriangleMatrixExceptions, InvalidArgumentTest) {
         FAIL() << "Expected InvalidArgument, but another exception was thrown!";
     }
 }
+
+TEST(TriangleMatrixExceptions, SizeMismatchTest) {
+    TriangleMatrix<int, ArraySequence> m1(2);
+    TriangleMatrix<int, ArraySequence> m2(4);
+
+    EXPECT_THROW(m1.Add(m2), SizeMismatch);
+    EXPECT_THROW(m1+m2, SizeMismatch);
+
+    try 
+    {
+        m1.Add(m2);
+        FAIL() << "Expected SizeMismatch exception was not thrown!";
+    } 
+    catch(const SizeMismatch& e) 
+    {
+        std::string expectedMessage = "SizeMismatch: sizes do not match (2 vs 4)";
+        EXPECT_EQ(std::string(e.what()), expectedMessage);
+    } 
+    catch (...) 
+    {
+        FAIL() << "Expected SizeMismatch, but another exception was thrown!";
+    }
+}
