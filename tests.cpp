@@ -793,6 +793,7 @@ TEST(ImmutableTriangleMatrixExceptions, IndexOutOfRangeColumn) {
         << "\nexpected: throw IndexOutOfRange (столбец 3 выходит за пределы)";
 }
 
+
 TEST(ImmutableTriangleMatrixExceptions, IndexOutOfRangeMessage) {
     ImmutableTriangleMatrix<int, ArraySequence> m(3);
     try
