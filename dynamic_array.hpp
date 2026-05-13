@@ -10,9 +10,7 @@ private:
 public:
     DynamicArray() : data(nullptr), size(0) {}
 
-    DynamicArray(size_t count) : data(nullptr), size(0) {
-        size = count;
-        data = new T[size];
+    DynamicArray(size_t count) : data(new T[count]), size(count) {
     }
     
     DynamicArray(T* items, size_t count) : DynamicArray(count) {
@@ -40,6 +38,7 @@ public:
         }
         return *this;
     }
+    
     
     T& operator[](size_t index) {
         if(index>=size) {
