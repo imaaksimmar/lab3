@@ -6,6 +6,7 @@
 #include "list_sequence.hpp"
 #include "exceptions.hpp"
 
+
 template <typename T, template <typename> class Container>
 class ImmutableTriangleMatrix {
 public:
