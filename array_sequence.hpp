@@ -19,7 +19,7 @@ public:
 
     ArraySequence(const LinkedList<T>& list) 
         : array(new DynamicArray<T>(list.GetLength())) {
-        for(size_t i = 0; i < list.GetLength(); i++) {
+        for(size_t i=0; i<list.GetLength(); i++) {
             array->Set(i, list.Get(i));
         }
     }
@@ -56,17 +56,17 @@ public:
     }
 
     T Get(size_t index) const override {
-        if (index>=array->GetSize())
+        if(index>=array->GetSize())
             throw IndexOutOfRange(index, array->GetSize());
         return array->Get(index);
     }
 
     Sequence<T>* GetSubsequence(size_t startIndex, size_t endIndex) const override {
-        if (endIndex>=array->GetSize()) {
+        if(endIndex>=array->GetSize()) {
             throw IndexOutOfRange(endIndex, array->GetSize());
         }
         
-        if (startIndex > endIndex) {
+        if(startIndex > endIndex) {
             throw InvalidArgument("startIndex (" + std::to_string(startIndex) + 
                           ") is strictly greater than endIndex (" + std::to_string(endIndex) + ")");
         }
