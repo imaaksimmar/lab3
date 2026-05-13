@@ -3,6 +3,7 @@
 #include "linked_list.hpp"
 #include "exceptions.hpp"
 
+
 template <typename T>
 class ListSequence : public Sequence<T> {
 private:
@@ -78,6 +79,7 @@ public:
         return this;
     }
 
+    
     Sequence<T>* InsertAt(T item, size_t index) override {
         list->InsertAt(item, index);
         return this;
