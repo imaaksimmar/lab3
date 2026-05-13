@@ -10,21 +10,23 @@
 template <typename T, template <typename> class Container> 
 class TriangleMatrix {
     public:
-
-    class Iterator {
+    class Proxy {
     private:
         TriangleMatrix<T, Container>* matrix; 
         size_t row;                          
         size_t rowStartIndex;                
 
     public:
-        Iterator(TriangleMatrix<T, Container>* m, size_t r)
-        : matrix(m), row(r) {
+        Proxy(TriangleMatrix<T, Container>* m, size_t r)
+        : matrix(m), row(r) { 
             rowStartIndex = row*(row+1)/2; 
         }
-
+             
         T& operator[](size_t column) {
-            if(row>=matrix->GetSize() || column>=matrix->GetSize()) {
+            if(row>=matrix->GetSize()) {
+                throw IndexOutOfRange(row, matrix->GetSize());
+            }
+            if(column>=matrix->GetSize()) {
                 throw IndexOutOfRange(column, matrix->GetSize());
             }
             if(row<column) {
@@ -34,32 +36,34 @@ class TriangleMatrix {
         }
     };
     
-    class ConstIterator {
+    class ConstProxy {
     private:
         const TriangleMatrix<T, Container>* matrix;
         size_t row;
         size_t rowStartIndex;
 
     public:
-        ConstIterator(const TriangleMatrix<T, Container>* m, size_t r)
+        ConstProxy(const TriangleMatrix<T, Container>* m, size_t r)
         : matrix(m), row(r) {
             rowStartIndex = row*(row+1)/2; 
         }
 
-    
         T operator[](size_t column) const {
-            if(row>=matrix->GetSize() || column>=matrix->GetSize()) {
+            if(row>=matrix->GetSize()) {
                 throw IndexOutOfRange(row, matrix->GetSize());
             }
+            if(column>=matrix->GetSize()) {
+                throw IndexOutOfRange(column, matrix->GetSize());
+            }
             if(row<column) {
-                return T(); 
+                return T();
             }
             return (*matrix->data)[rowStartIndex + column];
         }
     };
 
-    Iterator operator[](size_t row) { return Iterator(this, row); }
-    ConstIterator operator[](size_t row) const { return ConstIterator(this, row); }
+    Proxy operator[](size_t row) { return Proxy(this, row); }
+    ConstProxy operator[](size_t row) const { return ConstProxy(this, row); }
 
     private:
     size_t size;
@@ -112,7 +116,6 @@ class TriangleMatrix {
     T Norm() const 
     {
         T maxNorm = T();
-
         for(size_t i=0; i<this->size; i++) {
             T current = T();
             for(size_t j=0; j<=i; j++) {
