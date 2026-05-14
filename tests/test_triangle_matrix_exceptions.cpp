@@ -1,6 +1,11 @@
 #include <gtest/gtest.h>
 #include "../triangle_matrix.hpp"          
 
+using namespace exceptions;
+using namespace array_sequence;
+using namespace list_sequence;
+using namespace triangle_matrix;
+
 TEST(TriangleMatrixExceptions, IndexOutOfRangeRow) {
     TriangleMatrix<int, ArraySequence> m(3);
     EXPECT_THROW(m[3][0], IndexOutOfRange)

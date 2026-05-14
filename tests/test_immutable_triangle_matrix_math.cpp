@@ -2,6 +2,12 @@
 #include "../triangle_matrix.hpp"          
 #include "../immutable_triangle_matrix.hpp"
 
+using namespace exceptions;
+using namespace array_sequence;
+using namespace list_sequence;
+using namespace triangle_matrix;
+using namespace immutable_triangle_matrix;
+
 TEST(ImmutableTriangleMatrix, GetSizeZero) {
     ImmutableTriangleMatrix<int, ArraySequence> m;
 

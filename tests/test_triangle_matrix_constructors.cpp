@@ -1,6 +1,11 @@
 #include <gtest/gtest.h>
 #include "../triangle_matrix.hpp"          
 
+using namespace exceptions;
+using namespace array_sequence;
+using namespace list_sequence;
+using namespace triangle_matrix;
+
 TEST(TriangleMatrixConstructors, DefaultConstructor) {
     TriangleMatrix<int, ArraySequence> m;
 

@@ -1,5 +1,10 @@
 #include <gtest/gtest.h>
-#include "../triangle_matrix.hpp"          
+#include "../triangle_matrix.hpp"  
+      
+using namespace exceptions;
+using namespace array_sequence;
+using namespace list_sequence;
+using namespace triangle_matrix;
 
 int MultiplyByTen(int x) { return x*10; }
 
